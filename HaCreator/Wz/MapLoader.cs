@@ -29,7 +29,6 @@ using HaCreator.GUI;
 using HaCreator.MapSimulator;
 using HaCreator.Exceptions;
 using HaSharedLibrary.Render.DX;
-using HaSharedLibrary.Render;
 
 namespace HaCreator.Wz
 {
@@ -211,7 +210,7 @@ namespace HaCreator.Wz
 
                 WzImageProperty tSprop = layerProp["info"]?["tS"];
                 string tS = null;
-                if (tSprop != null)
+                if (tSprop != null) 
                     tS = InfoTool.GetString(tSprop);
 
                 foreach (WzImageProperty obj in layerProp["obj"].WzProperties)
@@ -272,7 +271,7 @@ namespace HaCreator.Wz
         public static void LoadLife(WzImage mapImage, Board mapBoard)
         {
             WzImageProperty lifeParent = mapImage["life"];
-            if (lifeParent == null)
+            if (lifeParent == null) 
                 return;
 
             if (InfoTool.GetOptionalBool(lifeParent["isCategory"]) == true) // cant handle this for now.  Azwan 262021001.img TODO
@@ -362,7 +361,7 @@ namespace HaCreator.Wz
                 // 'sitDir' 'offset'
             }
             mapBoard.BoardItems.Chairs.Sort(new Comparison<Chair>(
-                    delegate (Chair a, Chair b)
+                    delegate(Chair a, Chair b)
                     {
                         if (a.X > b.X)
                             return 1;
@@ -589,9 +588,9 @@ namespace HaCreator.Wz
                 WzSubProperty tooltipProp = (WzSubProperty)tooltipsParent[num];
                 WzSubProperty tooltipChar = (WzSubProperty)tooltipsParent[num + "char"];
 
-                if (tooltipString == null && tooltipProp == null)
+                if (tooltipString == null && tooltipProp == null) 
                     break;
-                if (tooltipString == null ^ tooltipProp == null)
+                if (tooltipString == null ^ tooltipProp == null) 
                     continue;
 
                 string title = InfoTool.GetOptionalString(tooltipString["Title"]);
@@ -633,7 +632,7 @@ namespace HaCreator.Wz
                 int a = InfoTool.GetInt(bgProp["a"]);
                 BackgroundType type = (BackgroundType)InfoTool.GetInt(bgProp["type"]);
                 bool front = InfoTool.GetBool(bgProp["front"]);
-                int screenMode = InfoTool.GetInt(bgProp["screenMode"], (int)RenderResolution.Res_All);
+                int screenMode = InfoTool.GetInt(bgProp["screenMode"], (int) RenderResolution.Res_All);
                 string spineAni = InfoTool.GetString(bgProp["spineAni"]);
                 bool spineRandomStart = InfoTool.GetBool(bgProp["spineRandomStart"]);
                 bool? flip_t = InfoTool.GetOptionalBool(bgProp["f"]);
@@ -642,7 +641,7 @@ namespace HaCreator.Wz
                 bool ani = InfoTool.GetBool(bgProp["ani"]);
                 string no = InfoTool.GetInt(bgProp["no"]).ToString();
 
-                BackgroundInfoType infoType;
+                BackgroundInfoType infoType ;
                 if (spineAni != null)
                     infoType = BackgroundInfoType.Spine;
                 else if (ani)
@@ -655,7 +654,7 @@ namespace HaCreator.Wz
                     continue;
 
                 IList list = front ? mapBoard.BoardItems.FrontBackgrounds : mapBoard.BoardItems.BackBackgrounds;
-                list.Add((BackgroundInstance)bgInfo.CreateInstance(mapBoard, x, y, i, rx, ry, cx, cy, type, a, front, flip, screenMode,
+                list.Add((BackgroundInstance)bgInfo.CreateInstance(mapBoard, x, y, i, rx, ry, cx, cy, type, a, front, flip, screenMode, 
                     spineAni, spineRandomStart));
             }
         }
@@ -672,8 +671,6 @@ namespace HaCreator.Wz
             WzImageProperty pulley = mapImage["pulley"];
             WzImageProperty BuffZone = mapImage["BuffZone"];
             WzImageProperty swimArea = mapImage["swimArea"];
-            WzImageProperty mirrorFieldData = mapImage["MirrorFieldData"]; // on 5th job maps like Estera, nameless village
-
             if (clock != null)
             {
                 Clock clockInstance = new Clock(mapBoard, new Rectangle(InfoTool.GetInt(clock["x"]), InfoTool.GetInt(clock["y"]), InfoTool.GetInt(clock["width"]), InfoTool.GetInt(clock["height"])));
@@ -690,13 +687,13 @@ namespace HaCreator.Wz
                 string l2 = objPathParts[objPathParts.Length - 1];
 
                 ObjectInfo objInfo = ObjectInfo.Get(oS, l0, l1, l2);
-                ShipObject shipInstance = new ShipObject(objInfo, mapBoard,
-                    InfoTool.GetInt(ship["x"]),
-                    InfoTool.GetInt(ship["y"]),
-                    InfoTool.GetOptionalInt(ship["z"]),
-                    InfoTool.GetOptionalInt(ship["x0"]),
-                    InfoTool.GetInt(ship["tMove"]),
-                    InfoTool.GetInt(ship["shipKind"]),
+                ShipObject shipInstance = new ShipObject(objInfo, mapBoard, 
+                    InfoTool.GetInt(ship["x"]), 
+                    InfoTool.GetInt(ship["y"]), 
+                    InfoTool.GetOptionalInt(ship["z"]), 
+                    InfoTool.GetOptionalInt(ship["x0"]), 
+                    InfoTool.GetInt(ship["tMove"]), 
+                    InfoTool.GetInt(ship["shipKind"]), 
                     InfoTool.GetBool(ship["f"]));
                 mapBoard.BoardItems.Add(shipInstance, false);
             }
@@ -781,7 +778,6 @@ namespace HaCreator.Wz
                     mapBoard.BoardItems.Add(currArea, false);
                 }
             }
-
             if (mirrorFieldData != null)
             {
                 foreach (WzImageProperty prop in mirrorFieldData.WzProperties)
@@ -949,7 +945,7 @@ namespace HaCreator.Wz
         /// <param name="rightClickHandler"></param>
         public static void CreateMapFromImage(int mapId, WzImage mapImage, string mapName, string streetName, string categoryName, WzSubProperty strMapProp, System.Windows.Controls.TabControl Tabs, MultiBoard multiBoard, System.Windows.RoutedEventHandler[] rightClickHandler)
         {
-            if (!mapImage.Parsed)
+            if (!mapImage.Parsed) 
                 mapImage.ParseImage();
 
             List<string> copyPropNames = VerifyMapPropsKnown(mapImage, false);
@@ -982,11 +978,11 @@ namespace HaCreator.Wz
                 ErrorLogger.Log(ErrorLevel.IncorrectStructure, "no size @map " + info.id.ToString());
                 return;
             }
-
+            
             lock (multiBoard)
             {
                 CreateMap(streetName, mapName, mapId, WzInfoTools.RemoveLeadingZeros(WzInfoTools.RemoveExtension(mapImage.Name)), CreateStandardMapMenu(rightClickHandler), size, center, Tabs, multiBoard);
-
+                
                 Board mapBoard = multiBoard.SelectedBoard;
                 mapBoard.Loading = true; // prevents TS Change callbacks
                 mapBoard.MapInfo = info;
@@ -1023,7 +1019,7 @@ namespace HaCreator.Wz
                 ErrorLogger.SaveToFile("errors.txt");
                 if (UserSettings.ShowErrorsMessage)
                 {
-                    // MessageBox.Show("Errors were encountered during the loading process. These errors were saved to \"errors.txt\". Please send this file to the author, either via mail (" + ApplicationSettings.AuthorEmail + ") or from the site you got this software from.\n\n(In the case that this program was not updated in so long that this message is now thrown on every map load, you may cancel this message from the settings)", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                   // MessageBox.Show("Errors were encountered during the loading process. These errors were saved to \"errors.txt\". Please send this file to the author, either via mail (" + ApplicationSettings.AuthorEmail + ") or from the site you got this software from.\n\n(In the case that this program was not updated in so long that this message is now thrown on every map load, you may cancel this message from the settings)", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 ErrorLogger.ClearErrors();
             }
@@ -1093,7 +1089,7 @@ namespace HaCreator.Wz
 
         public static void CreateMapFromHam(MultiBoard multiBoard, System.Windows.Controls.TabControl Tabs, string data, System.Windows.RoutedEventHandler[] rightClickHandler)
         {
-            CreateMap("", "", -1, "", CreateStandardMapMenu(rightClickHandler), new XNA.Point(), new XNA.Point(), Tabs, multiBoard);
+            CreateMap("", "", -1,  "", CreateStandardMapMenu(rightClickHandler), new XNA.Point(), new XNA.Point(), Tabs, multiBoard);
             multiBoard.SelectedBoard.Loading = true; // Prevent TS Change callbacks while were loading
             lock (multiBoard)
             {

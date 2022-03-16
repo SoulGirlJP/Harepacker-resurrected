@@ -59,7 +59,8 @@ namespace HaCreator.Wz
         {
             if (board.MapInfo.mapType == MapType.RegularMap)
             {
-                string cat = "Map" + image.Name.Substring(0, 1);
+                string mapid = image.Name.Substring(0, 9).Substring(0, 1);
+                string cat = image.Name.Substring(0, 1);
 
                 WzDirectory catDir = Program.WzManager.FindMapWz(cat);
                 if (catDir == null)
@@ -457,7 +458,7 @@ namespace HaCreator.Wz
                 bgProp["a"] = InfoTool.SetInt(bgInst.a);
                 bgProp["type"] = InfoTool.SetInt((int)bgInst.type);
                 bgProp["front"] = InfoTool.SetOptionalBool(bgInst.front);
-                if (bgInst.screenMode != (int)RenderResolution.Res_All) // 0
+                if (bgInst.screenMode != (int) RenderResolution.Res_All) // 0
                     bgProp["screenMode"] = InfoTool.SetInt(bgInst.screenMode);
 
                 if (bgInst.SpineAni != null) // dont put anything if null
@@ -751,7 +752,6 @@ namespace HaCreator.Wz
             WzSubProperty areaParent = new WzSubProperty();
             WzSubProperty buffParent = new WzSubProperty();
             WzSubProperty swimParent = new WzSubProperty();
-
             foreach (BoardItem item in board.BoardItems.MiscItems)
             {
                 if (item is Clock)
@@ -837,7 +837,7 @@ namespace HaCreator.Wz
                 image["swimArea"] = swimParent;
             }
         }
-
+        
         public void SaveMirrorFieldData()
         {
             if (board.BoardItems.MirrorFieldDatas.Count == 0)
@@ -951,7 +951,6 @@ namespace HaCreator.Wz
             SaveFootholds();
             SaveLife();
             SaveMisc();
-            SaveMirrorFieldData();
             SaveAdditionals();
             InsertImage();
         }
@@ -1076,7 +1075,7 @@ namespace HaCreator.Wz
                         continue;
                     }*/
 
-                        FootholdAnchor contAnchor = FindOptimalContinuationAnchor((tileInst.BoundItemsList[1].Y + tileInst.BoundItemsList[nitems - 2].Y) / 2,
+                    FootholdAnchor contAnchor = FindOptimalContinuationAnchor((tileInst.BoundItemsList[1].Y + tileInst.BoundItemsList[nitems - 2].Y) / 2,
                         tileInst.BoundItemsList[1].X, tileInst.BoundItemsList[nitems - 2].X, tileInst.LayerNumber);
                     if (contAnchor == null)
                     {
@@ -1209,7 +1208,7 @@ namespace HaCreator.Wz
 
         public void UpdateMapLists()
         {
-            Program.InfoManager.Maps[WzInfoTools.AddLeadingZeros(board.MapInfo.id.ToString(), 9)] =
+            Program.InfoManager.Maps[WzInfoTools.AddLeadingZeros(board.MapInfo.id.ToString(), 9)] = 
                 new Tuple<string, string>(board.MapInfo.strStreetName, board.MapInfo.strMapName);
         }
     }
